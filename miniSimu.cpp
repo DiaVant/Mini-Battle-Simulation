@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 const string DEV_KEY = "1038";
 const int INT_MAXI = 2147483647;
 
@@ -164,9 +163,7 @@ void DisplayDummyMap (unordered_map<string, Dummy> theMap) {
 
 
 
-
 //MAIN / VISUAL Displays
-
 
 //(used in MainMapDisplay) 
 //input: a cell to be checked
@@ -243,8 +240,7 @@ void MainMapDisplay () {
 		}
 		
 		cout << endl;
-	}
-	
+	}	
 }
 
 //(used in ConvertMapToSortedList())
@@ -269,8 +265,6 @@ vector<Dummy> ConvertMapToSortedList (unordered_map<string, Dummy> theMap) {
 //(used in Display())
 void MainFoeMapDisplay () {
 	vector<Dummy> sortedDummy = ConvertMapToSortedList(_foeMap); 
-
-
 	
 	cout << "FOE(s):" << endl;
 	
@@ -318,8 +312,6 @@ void MainFoeMapDisplay () {
 void MainPlayerMapDisplay () {
 	vector<Dummy> sortedDummy = ConvertMapToSortedList(_playerMap); 
 
-
-	
 	cout << "PLAYER(s):" << endl;
 	
 	for (const auto& curDummy : sortedDummy) {
@@ -395,10 +387,7 @@ void UpdateMainMap (Coord theCoord, Terrain theTerrain) {
 
 
 
-
 //; == commented out
-
-//ParseIn(s);
 void ParseTerrainTypes () {
 	Terrain curTerrain;
 	ifstream inFile("terrainTypes.in");
@@ -477,14 +466,11 @@ void ParseDummiesStats () {
 	getline(firstTime, curStr);
 
 	while (getline(firstTime, curStr)) {
-	
 		//if reached foe, then break;
 		if (curStr == "Foe") {
 			break;
 		}
-		
 		cc++;
-		
 
 		//deleting extra lines
 		getline(firstTime, curStr);
@@ -501,18 +487,10 @@ void ParseDummiesStats () {
 		for (int i = 0; i < 4; i++) {
 			getline(firstTime, curStr);
 		}
-		
 	}
 	firstTime.close();
 	
 
-
-
-
-
-
-
-	
 	//second time inFile for actual data
 	ifstream secondTime("dummies.in");
 
@@ -543,11 +521,9 @@ void ParseDummiesStats () {
 			for (int i = 0; i < 4; i++) {
 				getline(secondTime, curStr);
 			}
-			
+
 			continue;
 		}
-		
-		
 		
 		secondTime >> curStr;
 		curDummy._name = curStr;		
@@ -557,7 +533,6 @@ void ParseDummiesStats () {
 		//inFile stats
 		for (int m = 0; m < 4; m++) {
 			secondTime >> curStr;
-			
 			
 			//if usses default dummy types, then construct dummyINfo and break;
 			if (curStr == "TYPE") {
@@ -620,8 +595,6 @@ void ParseDummiesStats () {
 			continue;
 		}
 		
-		
-		
 		secondTime >> curStr;
 		curDummy._name = curStr;		
 		secondTime >> curStr >> curStr;
@@ -669,16 +642,12 @@ void ParseMainMap () {
 	string curStr = "";
 	unordered_map<string, Terrain>::iterator terrainIt;
 	unordered_map<string, Dummy>::iterator dummyIt;
-	
-	
-	
-	
+		
 	ifstream inFile("mapInfo.in");
 	
 	//gen base map
 	inFile >> _mapRowNum >> _mapColumnNum >> _mapType;
 	GenMainMap();
-	
 	
 	//inFile terrain coords until player/foe coords
 	while (inFile >> curStr) {
@@ -689,7 +658,6 @@ void ParseMainMap () {
 			continue;
 		}
 		
-
 		inFile >> curCoord._xCoord >> curCoord._yCoord;
 		terrainIt = _terrainMap.find(curStr);
 		
@@ -702,7 +670,6 @@ void ParseMainMap () {
 	}
 	
 	
-	
 	//inFile player/foe coords
 	//adding the already read dummy input
 	if (_playerMap.find(curStr) != _playerMap.end()) {
@@ -713,7 +680,6 @@ void ParseMainMap () {
 	}
 	
 
-	
 	while (inFile >> curStr) {
 		
 		//commented out == ';'
@@ -742,7 +708,6 @@ void ParseIn () {
 	ParseDummiesStats();
 	ParseMainMap();
 }
-
 
 
 //input: two coords
@@ -886,8 +851,6 @@ vector<Coord> GenTwoTwoSurroundingCoordList (Coord theCoord) {
 		
 	}
 	
-	
-	
 	//generates up, down, left, right of length two
 	
 	//2up
@@ -1030,17 +993,13 @@ vector<Coord> RemoveFlankingTargetCoordList (vector<Coord> oriList) {
 		
 		if (notInMap) {
 			resList.push_back(curCoord);
-		}
-		
+		}	
 		
 	}
 	
 	
 	return resList;
 }
-
-
-
 
 
 
@@ -1088,18 +1047,10 @@ string FindAttackingName (Coord theCoord, vector< unordered_map<string, Dummy> >
 						miniHealth = curDummy.second._hpx;
 						miniStr = curDummy.second._name;
 					}
-					
 				}
-				
-				
-				
 			}
 		}
-		
-		
-		
 	}
-	
 
 	return miniStr;
 }
@@ -1125,7 +1076,6 @@ void FindNewAttackingPlayer () {
 			continue;
 		}
 		
-		
 		//checks if should be attacking, then change status & attacking name;
 		curStr = FindAttackingName(curCoord, targetList);
 		
@@ -1133,10 +1083,7 @@ void FindNewAttackingPlayer () {
 			_playerMap.find(curPlayer.first)->second._status = 2;
 			_playerMap.find(curPlayer.first)->second._attackingName = curStr;
 		}
-		
 	}
-	
-	
 }
 
 //(Used in CheckAllDummy())
@@ -1174,7 +1121,6 @@ vector<string> FindNewAttackingFoe () {
 			resSet.insert(curStr);
 			continue;
 		}
-		
 	}
 	
 	
@@ -1207,11 +1153,9 @@ void CheckAllAttackingIfDead () {
 		if (attackingIt->second._status == 0) {
 			mapIt->second._status = 1;
 		}	
-		
 	}
 	
-	
-	
+
 	//checking foe map
 	for (unordered_map<string, Dummy>::iterator mapIt = _foeMap.begin(); mapIt != _foeMap.end(); mapIt++) {
 		
@@ -1226,11 +1170,7 @@ void CheckAllAttackingIfDead () {
 		if (attackingIt->second._status == 0) {
 			mapIt->second._status = 1;
 		}	
-		
-		
-	}
-	
-	
+	}	
 }
 
 //(usaed in CheckAllDummy())
@@ -1260,7 +1200,6 @@ void CheckAllAttackingPos () {
 	}
 	
 	
-	
 	//checking foe map
 	for (unordered_map<string, Dummy>::iterator mapIt = _foeMap.begin(); mapIt != _foeMap.end(); mapIt++) {
 		
@@ -1278,7 +1217,6 @@ void CheckAllAttackingPos () {
 			mapIt->second._status = 1;
 		}
 	}
-	
 }
 
 //(usedin Update())
@@ -1310,7 +1248,6 @@ void CalcAllAttackingHpx () {
 	}
 	
 	
-	
 	//checking foe map
 	for (unordered_map<string, Dummy>::iterator mapIt = _foeMap.begin(); mapIt != _foeMap.end(); mapIt++) {
 		
@@ -1331,17 +1268,12 @@ void CalcAllAttackingHpx () {
 		
 		attackingIt->second._hpx -= curHealthLoss;
 	}
-
-
 }
 
 
 
 
-
-
 /////////FLANKING (FOE)
-
 
 //(used in FindNewFlankingFoe())
 //input: a player name who should be targeted
@@ -1395,11 +1327,8 @@ vector<string> GenFlankingFoeList (string targetName) {
 				resList[i] = curPair;
 				
 				curPair = tempPair;
-			}
-			
-		} 
-		
-		
+			}			
+		} 				
 	}
 	
 	
@@ -1411,8 +1340,7 @@ vector<string> GenFlankingFoeList (string targetName) {
 		if (resList[i].first == "") {
 			resList.resize(i);
 			continue;
-		}
-		
+		}		
 		stringResList.push_back(resList[i].first);
 	}
 	
@@ -1538,8 +1466,7 @@ vector<Coord> GenPathFoe (Coord startCoord, Coord endCoord, vector<vector<Cell> 
 	
 	//a* algo
 	while (!(EqualCoord(curCell._coord, endCoord) || openPriorQueue.empty())) {
-		cc++;
-		
+		cc++;		
 		
 		//finds smallest next curCoord to visit
 		curCell._coord = openPriorQueue.top().first;
@@ -1590,7 +1517,6 @@ vector<Coord> GenPathFoe (Coord startCoord, Coord endCoord, vector<vector<Cell> 
 			}
 			
 			
-			
 			//updates element in priority queue if better solution
 			curDis = newCell._terrainInfo._value + curCell._miniDis;
 			
@@ -1602,11 +1528,9 @@ vector<Coord> GenPathFoe (Coord startCoord, Coord endCoord, vector<vector<Cell> 
 				curDis = newCell._miniDis + newCell._horiVal;
 				
 				openPriorQueue.push(pair<Coord, int>(newCell._coord, curDis));
-			}
+			}	
 			
-			
-		}
-		
+		}	
 		
 	}
 	
@@ -1767,11 +1691,9 @@ void CheckAllFlankingIfDead () {
 		//if attacking person is dead, then return to marching
 		if (attackingIt->second._status == 0) {
 			mapIt->second._status = 1;
-		}	
-		
+		}		
 		
 	}
-	
 	
 }
 
@@ -1800,8 +1722,6 @@ void UpdateFlankingFoePath() {
 
 
 /////IDLE (FOE)
-
-
 
 //(used in CheckAllDummy())
 //       checks ._attacingName of all idle players
@@ -1915,12 +1835,9 @@ vector<string> GenNewIdleToFlankingFoeList (string targetName) {
 			}
 		} 
 		
-		
 	}
 	
 	
-	
-
 	//filters out the resList if there aren't enough foes to take all spots & makes a vector<string>
 	vector<string> stringResList;
 	for (int i = resList.size() - 1; i > -1; i--) {
@@ -1996,16 +1913,8 @@ void CheckAllIdleIfDead () {
 		if (attackingIt->second._status == 0) {
 			mapIt->second._status = 1;
 		}	
-		
-		
-	}
-	
-	
+	}	
 }
-
-
-
-
 
 
 
@@ -2039,10 +1948,7 @@ void UpdateMarchingFoePath() {
 }
 
 
-
-
 ///////MOVEMENT
-
 
 //(used in MoveFlankingFoe(), MoveMarchingFoe())
 //input: vector of coords;
@@ -2145,9 +2051,6 @@ void MoveMarchingFoeLeft () {
 }
 
 
-
-
-
 //(used in CheckAllDummy())
 //goes over all foes and players, if hpx <= 0 or are out of frame, then changes status to 0 (aka dead)
 void CheckAllIfDead () {
@@ -2173,9 +2076,6 @@ void CheckAllIfDead () {
 		
 	}
 	
-	
-	
-	
 	//checking foe map
 	for (unordered_map<string, Dummy>::iterator mapIt = _foeMap.begin(); mapIt != _foeMap.end(); mapIt++) {
 		
@@ -2194,13 +2094,8 @@ void CheckAllIfDead () {
 		if (!CheckInCoordInBounds(mapIt->second._coord)) {
 			mapIt->second._status = 0;
 		}
-		
 	}
-	
 }
-
-
-
 
 
 //(used in Update(), Core())
@@ -2209,7 +2104,7 @@ void CheckAllDummy () {
 	//list of names of players that should be targetted by flanking foes
 	vector<string> targetList;
 	
-	
+
 	//updates all dead, then checks if _targetName is dead for statuses, checks _attackingName if still valid to attack, checks _pathList if reached end of path
 	CheckAllIfDead();
 	
@@ -2222,7 +2117,6 @@ void CheckAllDummy () {
 	CheckAllIdleIfDead();
 	
 	
-	
 	//find new attacking player / foes
 	FindNewAttackingPlayer();
 	targetList = FindNewAttackingFoe(); 
@@ -2233,7 +2127,6 @@ void CheckAllDummy () {
 	}
 
 
-
 	//find new idle->flanking playesr
 	targetList = FindIdleToFlankingTarget();
 
@@ -2242,7 +2135,6 @@ void CheckAllDummy () {
 		FindNewIdleToFlankingFoe(targetList);
 	}
 	
-
 
 	//update / regen paths for flanking & marching foes	
 	UpdateMarchingFoePath();
@@ -2263,7 +2155,6 @@ void Update () {
 	
 	CheckAllDummy();
 }
-
 
 
 //(used in CheckIfWin())
@@ -2382,7 +2273,7 @@ void WinningEnding () {
 	//player wins
 	if (CheckAllMapDead(_foeMap)) {
 		cout << "the Players have won the fight!" << endl;
-		cout << "Seems that fending for yourself was the best tactic for this battle. Surely all the Players believe so too. So, what next?" << endl;
+		cout << "Seems that fending for yourself was the best tactic for this battle. Surely all the Players believe so too. So, what's next?" << endl;
 		cout << "You have Unlocked 'solidarity'" << endl;
 		return;
 	}
@@ -2455,11 +2346,7 @@ int main () {
 		return 0;
 	}
 	
-	
 	Core();
 	
-
-
-
 	return 0;
 }
