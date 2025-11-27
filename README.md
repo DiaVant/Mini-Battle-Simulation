@@ -8,11 +8,11 @@ Change the `.in` input files to create a custom simulation. The simulation will 
 ---
 
 **DEV_KEY:**
-1038
+1038 (use to skip preamble)
 
 ## Inupt files:
 
-> Note: (';' in the files == '//' in coding)
+> Note: ';' in the files == '//' in coding
 
 ### dummyTypes.in:
 - Folder for default types of dummies
@@ -20,22 +20,24 @@ Change the `.in` input files to create a custom simulation. The simulation will 
 
 ### dummies.in:
 - Folder for all dummy information (except position)
-- Example attributes:
+- Attributes:
   - Name (name)
   - Display name (display name)
-  - HPX (hpx)
-  - Max HPX (max hpx)
+  - Dummy Type (TYPE - dummy inherts preset stats from 'dummyTypes.in')
+  - Starting HPX (hpx)
+  - Max HPX (mhpx)
   - Defense (def)
   - Attack (atk)
  
 ### `terrainTypes.in`
-- Folder for all different types of terrain information (except position)
-- Example attributes:
+- Folder for all different types of terrain information (position specified in 'mapInfo.in')
+- Attributes:
   - Name
   - Display name
-  - Value / cost
+  - Value / cost to traverse
     
 ### `mapInfo.in`
+> Note: first number denotes y axis, second number denotes x axis
 1. Size of the 2D rectangular map  
    - Indexes will be in the range `[0, n)`
    - Defines map type
